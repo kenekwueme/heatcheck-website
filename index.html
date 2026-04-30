@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heat Check | The Future of Basketball</title>
+  <meta name="description" content="Heat Check is a basketball platform built to elevate the game across Nigeria and Africa, bridging the gap between grassroots talent and global opportunity.">
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/hero-interactive.css">
+  <style>
+    /* Specific Page Styles */
+    .floating-nav {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: transparent;
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: calc(100% - 48px);
+      max-width: 1000px;
+      z-index: 1000;
+    }
+    
+    .logo { font-family: var(--font-display); font-size: 1.25rem; font-weight: 900; letter-spacing: -2px; }
+    .logo a { color: var(--text-primary); text-decoration: none; }
+    .logo span { color: var(--accent-red); }
+    
+    .nav-links { display: flex; gap: var(--space-sm); align-items: center; }
+    .nav-links a { 
+      color: var(--text-primary); 
+      text-decoration: none; 
+      font-size: 0.85rem; 
+      font-weight: 600; 
+      text-transform: uppercase; 
+      letter-spacing: 0.05em;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-pill);
+      transition: all 0.3s ease;
+    }
+    .nav-links a:hover { background: rgba(0,0,0,0.05); color: var(--accent-red); }
+    
+    @media (max-width: 768px) {
+      .nav-links { display: none; /* In a real app we'd add a hamburger menu */ }
+      .floating-nav { top: 12px; width: calc(100% - 24px); }
+    }
+
+    /* Keep surreal-glass and parallax for other sections */
+    .surreal-glass {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(45px);
+      -webkit-backdrop-filter: blur(45px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: inset 0 0 40px rgba(255, 255, 255, 0.4), 0 20px 60px rgba(0, 0, 0, 0.1);
+      border-radius: var(--radius-xl);
+    }
+    .parallax-section {
+      position: relative;
+      background-attachment: fixed;
+      background-position: center;
+      background-size: cover;
+      z-index: 0;
+      padding: var(--space-xl) 0;
+      margin: var(--space-xxl) 0;
+    }
+    .parallax-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(255, 255, 255, 0.1); /* Minimized wash for maximum image vividness */
+      z-index: -1;
+    }
+    .hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+
+    /* Testimonial Quote */
+    .testimonial-quote-section {
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .testimonial-mark {
+      font-family: var(--font-display);
+      font-size: 8rem;
+      line-height: 0;
+      color: var(--accent-red);
+      opacity: 0.08; /* Lighter mark */
+      margin-bottom: -2rem;
+    }
+
+    .list-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-md) var(--space-sm);
+      border-bottom: 1px solid rgba(0,0,0,0.05); /* Light border */
+      transition: background 0.3s ease, padding 0.3s ease;
+      border-radius: var(--radius-sm);
+    }
+    .list-row:hover {
+      background: rgba(0,0,0,0.02);
+      padding-left: var(--space-md);
+      padding-right: var(--space-md);
+    }
+    @media (max-width: 768px) {
+      .list-row { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+    }
+
+    /* Big Stats */
+    .stat-block {
+      background: var(--bg-dark);
+      padding: var(--space-xl);
+      border-radius: var(--radius-xl);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .stat-number {
+      font-size: clamp(4rem, 10vw, 8rem);
+      font-family: var(--font-display);
+      font-weight: 900;
+      line-height: 0.9;
+      letter-spacing: -0.05em;
+      margin-bottom: var(--space-sm);
+      color: var(--text-primary);
+    }
+    
+    .event-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-xl);
+      align-items: center;
+      margin-bottom: var(--space-xxl);
+    }
+    .event-card:nth-child(even) {
+      direction: rtl; /* Swap image to right on desktop */
+    }
+    .event-card:nth-child(even) > * {
+      direction: ltr; /* Reset text direction inside */
+    }
+    @media (max-width: 900px) {
+      .event-card { grid-template-columns: 1fr; gap: var(--space-md); }
+      .event-card:nth-child(even) { direction: ltr; }
+    }
+    
+    .sponsors-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    /* Minimal Footer */
+    .footer-island {
+      background: var(--bg-surface);
+      border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+      padding: var(--space-xl);
+      text-align: center;
+      margin-top: var(--space-xxl);
+      border-top: var(--border-subtle);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky Premium Navigation -->
+  <header class="floating-nav reveal">
+    <div class="logo"><a href="index.html">HEAT<span>CHECK</span></a></div>
+    <nav class="nav-links">
+      <a href="shop.html">Shop</a>
+      <a href="#about">About</a>
+      <a href="#events">Events</a>
+      <a href="#impact">Impact</a>
+      <a href="#business">Business</a>
+      <a href="#contact">Partner</a>
+    </nav>
+  </header>
+
+  <!-- 1. Interactive "HEAT" Hero -->
+  <section class="interactive-hero" id="heat-hero">
+    <div class="interactive-hero-bg"></div>
+    <div class="heat-container">
+      
+      <!-- H: HeatCheck -->
+      <div class="heat-letter" data-target="about">
+        <div class="letter-mark" style="background-image: url('assets/images/hero.jpg');">H</div>
+        <div class="heat-hover-content">
+          <div class="eyebrow">HeatCheck</div>
+          <h2>Basketball Culture</h2>
+          <p>Competition and community re-engineered for the modern player.</p>
+          <a href="#about" class="btn btn-primary">Enter HeatCheck</a>
+        </div>
+      </div>
+
+      <!-- E: Events -->
+      <div class="heat-letter" data-target="events">
+        <div class="letter-mark" style="background-image: url('assets/images/img_7202_copy.jpg'); background-position: center 95%;">E</div>
+        <div class="heat-hover-content">
+          <div class="eyebrow">Events</div>
+          <h2>Tournaments & Runs</h2>
+          <p>Matchups built for the culture. Real stages for real talent.</p>
+          <a href="#events" class="btn btn-primary">View Events</a>
+        </div>
+      </div>
+
+      <!-- A: Activations -->
+      <div class="heat-letter" data-target="impact">
+        <div class="letter-mark" style="background-image: url('assets/images/padel2025-1.jpg');">A</div>
+        <div class="heat-hover-content">
+          <div class="eyebrow">Activations</div>
+          <h2>Court Builds & Drops</h2>
+          <p>Community projects and sponsor-led basketball experiences.</p>
+          <a href="#impact" class="btn btn-primary">Explore Activations</a>
+        </div>
+      </div>
+
+      <!-- T: Threads -->
+      <div class="heat-letter" data-target="shop">
+        <div class="letter-mark" style="background-image: url('assets/images/shop-basketball-life.jpg'); background-position: center 95%;">T</div>
+        <div class="heat-hover-content">
+          <div class="eyebrow">Threads</div>
+          <h2>Premium Gear</h2>
+          <p>Jerseys, shorts, balls, and limited HeatCheck drops.</p>
+          <a href="shop.html" class="btn btn-primary">View Merch</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 2. Testimonial / Foundation Quote -->
+  <section id="about" class="container section">
+    <div class="testimonial-quote-section reveal">
+      <div class="testimonial-mark">"</div>
+      <h2 style="font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 600; font-family: var(--font-body); color: var(--text-primary); line-height: 1.3;">
+        With the power of basketball, we exist to <span class="text-gradient-blue" style="font-weight:800;">liberate and connect</span> people across Nigeria and the world.
+      </h2>
+      <div class="eyebrow" style="margin-top: var(--space-lg); color: var(--text-secondary);">— Our Guiding Principle</div>
+    </div>
+  </section>
+
+  <!-- 3. The Problem (Bento Grid) -->
+  <section class="section-island">
+    <div class="bento-grid">
+      <!-- Title Block -->
+      <div class="bento-col-4" style="padding: var(--space-md) 0 var(--space-lg) 0;">
+        <div class="eyebrow text-gradient-red">The Challenge</div>
+        <h2 style="max-width: 700px;">The Game Is Growing.<br><span style="color:var(--text-secondary);">The System Isn’t.</span></h2>
+        <p style="max-width: 600px;">Basketball in Nigeria is full of talent — but held back by structural gaps. We identified four critical areas that need immediate infrastructure.</p>
+      </div>
+
+      <!-- Feature Blocks -->
+      <div class="card bento-col-2 reveal delay-1">
+        <div class="badge-number">01</div>
+        <h3>Limited Coverage</h3>
+        <p>Basketball lacks visibility and media presence, slowing its growth in mainstream African culture.</p>
+      </div>
+      <div class="card bento-col-2 reveal delay-2">
+        <div class="badge-number">02</div>
+        <h3>Representation</h3>
+        <p>Women remain underrepresented, with limited access to courts, coaching, and participation opportunities.</p>
+      </div>
+      <div class="card bento-col-2 reveal delay-3">
+        <div class="badge-number">03</div>
+        <h3>Educational Gap</h3>
+        <p>Many promising players lack the foundational knowledge needed to develop and compete globally.</p>
+      </div>
+      <div class="card bento-col-2 reveal delay-4">
+        <div class="badge-number">04</div>
+        <h3>Data Systems</h3>
+        <p>There is no central database tracking players, performance metrics, or scouting opportunities.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. The Solution (Alternating Grid) -->
+  <section class="container section">
+    <div class="grid-2" style="align-items: center;">
+      <div class="img-cinematic-wrapper reveal" style="height: 700px;">
+        <img src="assets/images/building-section.jpg" alt="Player with basketball stretching" loading="lazy">
+      </div>
+      <div>
+        <div class="eyebrow text-gradient-blue reveal delay-1">The Infrastructure</div>
+        <h2 class="reveal delay-1" style="margin-bottom: var(--space-lg);">What We're Building</h2>
+        
+        <div style="display: flex; flex-direction: column; gap: var(--space-sm);">
+          <div class="card reveal delay-1" style="padding: var(--space-md) var(--space-lg);">
+            <h3 style="font-size: 1.5rem; color: var(--accent-white);">Media & Coverage</h3>
+            <p>Expanding basketball visibility through TV, radio, and digital platforms.</p>
+          </div>
+          <div class="card reveal delay-2" style="padding: var(--space-md) var(--space-lg);">
+            <h3 style="font-size: 1.5rem; color: var(--accent-red);">Women Inclusion</h3>
+            <p>Designing systems that actively increase female participation in the game.</p>
+          </div>
+          <div class="card reveal delay-3" style="padding: var(--space-md) var(--space-lg);">
+            <h3 style="font-size: 1.5rem; color: var(--accent-blue);">Education & Development</h3>
+            <p>Introducing basketball knowledge into schools, panels, and public forums.</p>
+          </div>
+          <div class="card reveal delay-4" style="padding: var(--space-md) var(--space-lg);">
+            <h3 style="font-size: 1.5rem; color: var(--accent-white);">Player Database</h3>
+            <p>Building a structured system to track and showcase basketball talent.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Timeline (Editorial List) -->
+  <section class="section-island" style="background: var(--bg-dark); border: 1px solid rgba(255,255,255,0.05);">
+    <div style="margin-bottom: var(--space-xl);">
+      <div class="eyebrow">Momentum</div>
+      <h2>Built Through Consistency</h2>
+      <p style="font-size: 1.25rem;">We’re not building moments. We’re building momentum.</p>
+    </div>
+
+    <div class="reveal delay-1">
+      <div class="list-row">
+        <div class="eyebrow" style="margin: 0; color: var(--accent-red);">2021</div>
+        <h3 style="margin:0; font-size:1.75rem;">Heat Check Tournament Launch</h3>
+      </div>
+      <div class="list-row">
+        <div class="eyebrow" style="margin: 0; color: var(--text-secondary);">2022</div>
+        <h3 style="margin:0; font-size:1.75rem; color: var(--text-secondary);">NBA x Hennessy Collaboration</h3>
+      </div>
+      <div class="list-row">
+        <div class="eyebrow" style="margin: 0; color: var(--text-secondary);">2022</div>
+        <h3 style="margin:0; font-size:1.75rem; color: var(--text-secondary);">Expanded Tournament Scale</h3>
+      </div>
+      <div class="list-row">
+        <div class="eyebrow" style="margin: 0; color: var(--accent-blue);">2023</div>
+        <h3 style="margin:0; font-size:1.75rem;">Basketball Court Construction</h3>
+      </div>
+      <div class="list-row">
+        <div class="eyebrow" style="margin: 0; color: var(--text-secondary);">2023</div>
+        <h3 style="margin:0; font-size:1.75rem; color: var(--text-secondary);">NBA Africa Finals Invitation</h3>
+      </div>
+      <div class="list-row">
+        <div class="eyebrow" style="margin: 0; color: var(--accent-red);">2023</div>
+        <h3 style="margin:0; font-size:1.75rem;">Abuja National Tournament</h3>
+      </div>
+      <div class="list-row">
+        <div class="eyebrow" style="margin: 0; color: var(--text-secondary);">2024</div>
+        <h3 style="margin:0; font-size:1.75rem; color: var(--text-secondary);">Heat Check Winter Edition</h3>
+      </div>
+      <div class="list-row">
+        <div class="eyebrow" style="margin: 0; color: var(--accent-blue);">2025</div>
+        <h3 style="margin:0; font-size:1.75rem;">Basketball x Padel Crossover</h3>
+      </div>
+      <div class="list-row">
+        <div class="eyebrow" style="margin: 0; color: var(--text-secondary);">2026</div>
+        <h3 style="margin:0; font-size:1.75rem; color: var(--text-secondary);">Sweatbox Lagos 3v3 Collab</h3>
+      </div>
+      <div class="list-row" style="border-bottom: none;">
+        <div class="eyebrow" style="margin: 0; color: var(--accent-white);">Future</div>
+        <h3 style="margin:0; font-size:1.75rem; color: var(--text-primary);">Continental Expansion</h3>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Events (Editorial Gallery) -->
+  <section id="events" class="container section">
+    <div style="text-align: center; margin-bottom: var(--space-xxl);">
+      <div class="eyebrow text-gradient-blue">Portfolio</div>
+      <h2>Major Activations</h2>
+    </div>
+
+    <!-- Event 1: Sweatbox -->
+    <div class="event-card reveal">
+      <div>
+        <h3>Heat Check x Sweatbox Lagos</h3>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:1.5rem;">
+          <span class="tag">Sweatbox Lagos</span>
+          <span class="tag tag-red">3v3 Format</span>
+          <span class="tag tag-blue">March 18th</span>
+        </div>
+        <p style="margin-bottom: 2rem;">An immersive, high-energy 3v3 basketball tournament hosted in collaboration with Sweatbox Lagos. Showcasing elite local talent in an intimate, premium gym environment.</p>
+        
+        <h4 style="font-size: 1.1rem; color: var(--accent-red); margin-bottom: 0.5rem;">Sponsors & Partners</h4>
+        <div class="sponsors-list">
+          <span class="tag" style="background:transparent;">Red Bull</span>
+          <span class="tag" style="background:transparent;">Sweatbox Lagos</span>
+        </div>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        <div class="img-cinematic-wrapper" style="aspect-ratio: 4/5;">
+          <img src="assets/images/team.jpg" alt="Sweatbox Teams" loading="lazy">
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+          <div class="img-cinematic-wrapper" style="flex:1;">
+            <img src="assets/images/play.jpg" alt="3v3 Action" loading="lazy">
+          </div>
+          <div class="img-cinematic-wrapper" style="flex:1;">
+            <img src="assets/images/sponsor.jpg" alt="Sponsor" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Event 2: Padel -->
+    <div class="event-card reveal">
+      <div>
+        <h3>Basketball & Padel Edition</h3>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:1.5rem;">
+          <span class="tag">Padel Club, Ikoyi</span>
+          <span class="tag tag-red">1v1 Format</span>
+          <span class="tag tag-blue">Dec 21st, 2025</span>
+        </div>
+        <p style="margin-bottom: 2rem;">A groundbreaking crossover event uniting the basketball and padel communities. Featuring intense 1v1 basketball battles alongside an 8-team padel tournament.</p>
+        
+        <h4 style="font-size: 1.1rem; color: var(--accent-blue); margin-bottom: 0.5rem;">Sponsors & Partners</h4>
+        <div class="sponsors-list">
+          <span class="tag" style="background:transparent;">Redbull</span>
+          <span class="tag" style="background:transparent;">Mikano</span>
+          <span class="tag" style="background:transparent;">Puma</span>
+        </div>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        <div class="img-cinematic-wrapper" style="aspect-ratio: 4/5;">
+          <img src="assets/images/padel2025-1.jpg" alt="Padel Action" loading="lazy">
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+          <div class="img-cinematic-wrapper" style="flex:1;">
+            <img src="assets/images/padel2025-2.jpg" alt="Padel Vibe" loading="lazy">
+          </div>
+          <div class="img-cinematic-wrapper" style="flex:1;">
+            <img src="assets/images/padel2025-3.jpg" alt="Padel Atmosphere" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Event 3: Winter 2024 -->
+    <div class="event-card reveal">
+      <div>
+        <h3>Winter Edition 2024</h3>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:1.5rem;">
+          <span class="tag">Whitesands, Lekki</span>
+          <span class="tag tag-red">5v5 Format</span>
+          <span class="tag tag-blue">Dec 26th, 2024</span>
+        </div>
+        <p style="margin-bottom: 2rem;">A massive year-end showcase bringing together 12 dynamic teams to close out 2024 with high-level 5v5 competition and unrivaled cultural energy.</p>
+        
+        <h4 style="font-size: 1.1rem; color: var(--text-primary); margin-bottom: 0.5rem;">Sponsors & Partners</h4>
+        <div class="sponsors-list">
+          <span class="tag" style="background:transparent;">Redbull</span>
+          <span class="tag" style="background:transparent;">Puma</span>
+          <span class="tag" style="background:transparent;">Garamart</span>
+          <span class="tag" style="background:transparent;">Russell School</span>
+          <span class="tag" style="background:transparent;">Bow Logistics</span>
+          <span class="tag" style="background:transparent;">Stoic Circle</span>
+        </div>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        <div class="img-cinematic-wrapper" style="aspect-ratio: 4/5;">
+          <img src="assets/images/dec2024-1.jpg" alt="Dec Action" loading="lazy">
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+          <div class="img-cinematic-wrapper" style="flex:1;">
+            <img src="assets/images/dec2024-2.jpg" alt="Dec Vibe" loading="lazy">
+          </div>
+          <div class="img-cinematic-wrapper" style="flex:1;">
+            <img src="assets/images/dec2024-3.jpg" alt="Dec Atmosphere" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Event 4: 2021 Tournament -->
+    <div class="event-card reveal">
+      <div>
+        <h3>Heat Check Tournament 2021</h3>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:1.5rem;">
+          <span class="tag">Landmark Center</span>
+          <span class="tag tag-red">5v5 Format</span>
+          <span class="tag tag-blue">12 Teams</span>
+        </div>
+        <p style="margin-bottom: 0.5rem;">A statement launch that introduced a new standard for basketball events.</p>
+        <p style="margin-bottom: 2rem; font-size: 0.95rem; color: var(--text-secondary);"><strong>Coverage:</strong> NTA, Inspiration FM 92.3, Bounce Networks, Prodmania Studios.</p>
+        
+        <h4 style="font-size: 1.1rem; color: var(--text-primary); margin-bottom: 0.5rem;">Sponsors & Partners</h4>
+        <div class="sponsors-list">
+          <span class="tag" style="background:transparent;">Haven Homes</span>
+          <span class="tag" style="background:transparent;">Hennessy</span>
+          <span class="tag" style="background:transparent;">AFA Sports</span>
+          <span class="tag" style="background:transparent;">ACG</span>
+          <span class="tag" style="background:transparent;">Russell International</span>
+          <span class="tag" style="background:transparent;">Pekeri Island</span>
+          <span class="tag" style="background:transparent;">OAK Exclusive</span>
+        </div>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        <div class="img-cinematic-wrapper" style="aspect-ratio: 4/5;">
+          <img src="assets/images/dec2021-1.jpg" alt="2021 Action" loading="lazy">
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+          <div class="img-cinematic-wrapper" style="flex:1;">
+            <img src="assets/images/dec2021-2.jpg" alt="2021 Vibe" loading="lazy">
+          </div>
+          <div class="img-cinematic-wrapper" style="flex:1;">
+            <img src="assets/images/dec2021-3.jpg" alt="2021 Sponsors" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Additional Events (No images) -->
+    <div class="grid-3" style="margin-top: var(--space-xxl);">
+      <div class="card reveal delay-1">
+        <h3>Tournament 2022</h3>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:1rem;">
+          <span class="tag">Landmark Beach</span>
+          <span class="tag">200+ Guests</span>
+        </div>
+        <p>A bigger stage. A stronger presence. Featuring international appearances and expanded sponsorship. Coverage by NTA, Inspiration FM 92.3, Prodmania.</p>
+      </div>
+
+      <div class="card reveal delay-2">
+        <h3>NBA Africa x Hennessy</h3>
+        <p style="margin-top: 1rem;">Exclusive invitation to a landmark NBA event in Lagos. Positioning Heat Check at the center of global basketball culture.</p>
+      </div>
+
+      <div class="card reveal delay-3">
+        <h3>Abuja National</h3>
+        <p style="margin-top: 1rem;">Hosted in partnership with CMT Finesse, featuring 6 national basketball clubs. Expanding beyond Lagos into national influence.</p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- 7. Target Market (Small Bento) -->
+  <section class="section parallax-section" style="background-image: url('assets/images/2K5A7722.jpeg');">
+    <div class="parallax-overlay"></div>
+    <div class="container">
+      <div class="section-island surreal-glass" style="margin: 0; max-width: 100%;">
+        <div class="bento-grid">
+          <div class="bento-col-4" style="text-align:center; padding-bottom: var(--space-lg);">
+            <div class="eyebrow" style="color:var(--text-primary);">Audience</div>
+            <h2 style="font-size: 3rem;">Who We Serve</h2>
+          </div>
+          <div class="card reveal delay-1 surreal-glass" style="text-align: center; border:none; box-shadow:none;">
+            <h3 style="color:var(--accent-blue);">Young Talent</h3>
+            <p style="color:var(--text-primary);">Development through camps, clinics, and education.</p>
+          </div>
+          <div class="card reveal delay-2 surreal-glass" style="text-align: center; border:none; box-shadow:none;">
+            <h3 style="color:var(--accent-red);">Competitive Players</h3>
+            <p style="color:var(--text-primary);">Tournaments and exposure opportunities.</p>
+          </div>
+          <div class="card reveal delay-3 surreal-glass" style="text-align: center; border:none; box-shadow:none;">
+            <h3 style="color:var(--text-primary);">Fans & Culture</h3>
+            <p style="color:var(--text-primary);">High-energy events and experiences.</p>
+          </div>
+          <div class="card reveal delay-4 surreal-glass" style="text-align: center; border:none; box-shadow:none;">
+            <h3 style="color:var(--text-primary);">Global Audience</h3>
+            <p style="color:var(--text-primary);">Future media, podcasts, and storytelling.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Impact & Traction (Giant Stats) -->
+  <section id="impact" class="container section">
+    <div style="text-align: center; margin-bottom: var(--space-xl);">
+      <div class="eyebrow text-gradient-red">Traction</div>
+      <h2>Reaching Further</h2>
+      <p style="max-width: 600px; margin: 0 auto;">Through strategic content and digital engagement, Heat Check continues to construct real infrastructure and expand its reach.</p>
+    </div>
+    
+    <div class="grid-2">
+      <div class="stat-block reveal delay-1">
+        <div class="stat-number text-gradient-blue">+29k</div>
+        <div class="eyebrow" style="margin:0; color:var(--text-primary);">Impressions Generated</div>
+        <p style="margin-top: 1rem; max-width: 300px;">Rapid audience growth across highly targeted youth demographics.</p>
+      </div>
+      <div class="stat-block reveal delay-2">
+        <div class="stat-number text-gradient-red">+16k</div>
+        <div class="eyebrow" style="margin:0; color:var(--text-primary);">Total Unique Reach</div>
+        <p style="margin-top: 1rem; max-width: 300px;">Consistent, organic expansion across multiple digital touchpoints.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Business Model (Pricing Style Features) -->
+  <section id="business" class="section parallax-section" style="background-image: url('assets/images/padel2025-1.jpg');">
+    <div class="parallax-overlay"></div>
+    <div class="container">
+      <div class="section-island surreal-glass" style="margin: 0; max-width: 100%;">
+        <div style="text-align: center; margin-bottom: var(--space-xl);">
+          <div class="eyebrow text-gradient-blue">Sustainability</div>
+          <h2>Built to Last</h2>
+          <p style="max-width: 600px; margin: 0 auto; color:var(--text-primary);">We integrate cultural impact directly with a scalable, sustainable business model.</p>
+        </div>
+        <div class="grid-3">
+          <div class="card reveal delay-1 surreal-glass" style="border: none; box-shadow:none;">
+            <div class="badge-number text-gradient-blue">A</div>
+            <h3>Advertising & Media</h3>
+            <p style="color:var(--text-primary);">Direct media monetization scaling across broadcasting, digital content, and targeted sponsorships.</p>
+          </div>
+          <div class="card reveal delay-2 surreal-glass" style="border: none; box-shadow:none;">
+            <div class="badge-number text-gradient-red">B</div>
+            <h3>Tickets & Vendors</h3>
+            <p style="color:var(--text-primary);">Lucrative live-event revenue flows through spectator ticketing and on-site vendor participations.</p>
+          </div>
+          <div class="card reveal delay-3 surreal-glass" style="border: none; box-shadow:none;">
+            <div class="badge-number text-gradient-blue">C</div>
+            <h3>Premium Merchandise</h3>
+            <p style="color:var(--text-primary);">Building a high-end streetwear and sportswear brand tightly woven into our live event culture.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Final CTA & Footer Island -->
+  <footer id="contact" class="section parallax-section" style="background-image: url('assets/images/hero-light.jpg');">
+    <div class="parallax-overlay"></div>
+    <div class="container">
+      <div class="footer-island reveal surreal-glass" style="margin: 0; box-shadow:none; border-radius:var(--radius-xl);">
+        <div class="badge-number surreal-glass" style="margin: 0 auto var(--space-md) auto; width: 80px; height: 80px; border-color:var(--accent-red);"><span style="color:var(--accent-red); font-size:1.5rem;">HC</span></div>
+        <h2 style="font-size: 3.5rem;">Partner With <span class="text-gradient-red">Growth</span></h2>
+        <p style="max-width: 600px; margin: 0 auto var(--space-lg) auto; color:var(--text-primary);">Be part of something that’s just getting started. Whether you’re a player, sponsor, or supporter — there’s a place for you.</p>
+        
+        <div class="hero-buttons" style="margin-bottom: var(--space-xxl);">
+          <a href="mailto:heatcheckonline@gmail.com" class="btn btn-primary">Join Heat Check</a>
+          <a href="mailto:heatcheckonline@gmail.com" class="btn btn-secondary">Become a Sponsor</a>
+        </div>
+
+        <div style="border-top: 1px solid rgba(0,0,0,0.1); padding-top: var(--space-lg); max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: var(--space-md);">
+          <div class="logo">HEAT<span>CHECK</span></div>
+          <div class="nav-links" style="justify-content: center;">
+            <a href="mailto:heatcheckonline@gmail.com">heatcheckonline@gmail.com</a>
+            <a href="#">@heatcheckforever</a>
+          </div>
+          <p style="font-size: 0.9rem; color:var(--text-primary);">+234 702 500 1510 &nbsp;&bull;&nbsp; +234 818 713 6953</p>
+          <div class="eyebrow" style="margin:0; color:var(--text-secondary);">© 2026 Heat Check Basketball.</div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

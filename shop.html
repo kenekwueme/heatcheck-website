@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heat Check | Shop</title>
+  <meta name="description" content="Shop official Heat Check merchandise. Premium basketball streetwear.">
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <script src="https://js.paystack.co/v1/inline.js"></script>
+  <style>
+    /* Specific Page Styles */
+    .floating-nav {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: transparent;
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: calc(100% - 48px);
+      max-width: 1000px;
+      z-index: 1000;
+    }
+    
+    .logo { font-family: var(--font-display); font-size: 1.25rem; font-weight: 900; letter-spacing: -2px; }
+    .logo a { color: var(--text-primary); text-decoration: none; }
+    .logo span { color: var(--accent-red); }
+    
+    .nav-links { display: flex; gap: var(--space-sm); align-items: center; }
+    .nav-links a { 
+      color: var(--text-primary); 
+      text-decoration: none; 
+      font-size: 0.85rem; 
+      font-weight: 600; 
+      text-transform: uppercase; 
+      letter-spacing: 0.05em;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-pill);
+      transition: all 0.3s ease;
+    }
+    .nav-links a:hover { background: rgba(0,0,0,0.05); color: var(--accent-red); }
+    .nav-links a.active { background: rgba(0,0,0,0.05); color: var(--accent-red); }
+    
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .floating-nav { top: 12px; width: calc(100% - 24px); }
+    }
+
+    /* Shop Hero */
+    .hero-island {
+      margin-top: 100px;
+      padding-top: var(--space-xxl);
+      padding-bottom: var(--space-xl);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .shop-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: var(--space-lg);
+    }
+
+    .product-card {
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      background: var(--bg-surface);
+      overflow: hidden;
+    }
+    
+    .product-info {
+      padding: var(--space-md);
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .product-price {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      color: var(--accent-red);
+      font-weight: 800;
+      margin-bottom: var(--space-sm);
+      letter-spacing: -1px;
+    }
+
+    .btn-buy {
+      width: 100%;
+      margin-top: auto;
+    }
+
+    /* Minimal Footer */
+    .footer-island {
+      background: var(--bg-surface);
+      border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+      padding: var(--space-xl);
+      text-align: center;
+      margin-top: var(--space-xxl);
+      border-top: var(--border-subtle);
+    }
+    
+    /* Modal Styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 2000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: var(--space-md);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .modal-overlay.active {
+      opacity: 1;
+    }
+    .modal-content {
+      background: #FFFFFF;
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 1100px;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      transform: translateY(20px);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 40px 100px rgba(0,0,0,0.15);
+    }
+    .modal-overlay.active .modal-content {
+      transform: translateY(0);
+    }
+    .modal-close {
+      position: absolute;
+      top: var(--space-md);
+      right: var(--space-md);
+      background: none;
+      border: none;
+      font-size: 2rem;
+      cursor: pointer;
+      color: var(--text-secondary);
+      z-index: 10;
+      width: 40px; height: 40px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 50%;
+      transition: background 0.2s;
+    }
+    .modal-close:hover { background: rgba(0,0,0,0.05); }
+    .modal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .modal-img-col {
+      background: #F9FAFB;
+      padding: var(--space-xl);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-img-col img {
+      max-width: 100%;
+      height: auto;
+      mix-blend-mode: multiply;
+    }
+    .modal-info-col {
+      padding: var(--space-xxl) var(--space-xl);
+      text-align: left;
+    }
+    .modal-info-col h2 { font-size: 2rem; margin-bottom: 0.25rem; font-family: var(--font-display); }
+    .modal-vendor { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: var(--space-lg); }
+    .modal-info-col p { font-size: 0.95rem; color: var(--text-primary); margin-bottom: var(--space-md); line-height: 1.6; }
+    .feature-list { margin-bottom: var(--space-lg); }
+    .feature-list h4 { font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--text-primary); font-weight: 600; }
+    .feature-list ul { list-style: none; padding: 0; margin: 0 0 var(--space-md) 0; }
+    .feature-list li { 
+      font-size: 0.9rem; 
+      color: var(--text-secondary); 
+      margin-bottom: 0.75rem; 
+      position: relative;
+      padding-left: 1.25rem;
+    }
+    .feature-list li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--text-secondary);
+    }
+    .qty-selector {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+      margin-bottom: var(--space-xl);
+    }
+    .qty-selector button {
+      background: none;
+      border: none;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      font-size: 1.1rem;
+      color: var(--text-primary);
+      transition: background 0.2s;
+    }
+    .qty-selector button:hover { background: rgba(0,0,0,0.05); }
+    .qty-selector input {
+      width: 40px;
+      text-align: center;
+      background: none;
+      border: none;
+      font-size: 1rem;
+      pointer-events: none;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .modal-price {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: var(--space-lg);
+    }
+    .modal-actions {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .btn-add-bag { background: #22C55E; color: white; border: none; padding-left: 2rem; padding-right: 2rem; }
+    .btn-add-bag:hover { background: #16A34A; }
+    .contact-seller {
+      background: none; border: 1px solid var(--border-subtle); color: var(--text-primary);
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .contact-seller:hover { background: rgba(0,0,0,0.05); }
+    
+    @media (max-width: 900px) {
+      .modal-grid { grid-template-columns: 1fr; }
+      .modal-img-col { padding: var(--space-md); }
+      .modal-info-col { padding: var(--space-lg) var(--space-md); }
+      .modal-content { max-height: 85vh; width: calc(100% - 2rem); margin: 1rem; }
+    }
+
+    /* Cart Drawer Styles */
+    .cart-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(5px);
+      z-index: 3000;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .cart-overlay.active { opacity: 1; pointer-events: auto; }
+    
+    .cart-drawer {
+      position: fixed; top: 0; right: 0; bottom: 0;
+      width: 100%; max-width: 450px;
+      background: var(--bg-dark);
+      border-left: var(--border-subtle);
+      z-index: 3001;
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex; flex-direction: column;
+    }
+    .cart-drawer.active { transform: translateX(0); }
+    
+    .cart-header {
+      padding: var(--space-lg);
+      border-bottom: var(--border-subtle);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .cart-header h2 { font-size: 1.5rem; color: var(--text-primary); margin: 0; }
+    .close-cart { background: none; border: none; color: var(--text-primary); font-size: 2rem; cursor: pointer; }
+    
+    .cart-items {
+      flex: 1; overflow-y: auto; padding: var(--space-lg);
+    }
+    .cart-empty { text-align: center; color: var(--text-secondary); margin-top: 2rem; }
+    
+    .cart-item {
+      display: flex; gap: var(--space-md); margin-bottom: var(--space-lg);
+      padding-bottom: var(--space-lg); border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .cart-item-img { width: 80px; height: 80px; background: #fff; border-radius: var(--radius-sm); padding: 0.5rem; }
+    .cart-item-img img { width: 100%; height: 100%; object-fit: contain; }
+    .cart-item-details { flex: 1; display: flex; flex-direction: column; }
+    .cart-item-title { font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem; }
+    .cart-item-price { color: var(--accent-red); font-weight: 700; margin-bottom: 0.5rem; }
+    .cart-item-actions { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
+    .cart-qty-btn { background: rgba(255,255,255,0.1); border: none; color: white; width: 24px; height: 24px; border-radius: 4px; cursor: pointer; }
+    .cart-remove { color: var(--text-secondary); font-size: 0.85rem; background: none; border: none; cursor: pointer; text-decoration: underline; }
+    
+    .cart-footer {
+      padding: var(--space-lg);
+      border-top: var(--border-subtle);
+      background: var(--bg-surface);
+    }
+    .cart-total-row { display: flex; justify-content: space-between; margin-bottom: 1rem; font-size: 1.25rem; font-weight: 700; color: var(--text-primary); }
+    .btn-checkout { width: 100%; padding: 1rem; font-size: 1.1rem; }
+
+    /* Nav Cart Icon */
+    .nav-actions { display: flex; align-items: center; gap: 1rem; }
+    .cart-btn {
+      background: none; border: none; cursor: pointer; position: relative;
+      color: var(--text-primary); display: flex; align-items: center; justify-content: center;
+    }
+    .cart-badge {
+      position: absolute; top: -8px; right: -8px; background: var(--accent-red); color: white;
+      font-size: 0.75rem; font-weight: 800; width: 20px; height: 20px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header class="floating-nav reveal">
+    <div class="logo"><a href="index.html">HEAT<span>CHECK</span></a></div>
+    <nav class="nav-links">
+      <a href="shop.html" class="active">Shop</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#events">Events</a>
+      <a href="index.html#impact">Impact</a>
+      <a href="index.html#business">Business</a>
+      <a href="index.html#contact">Partner</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="cart-btn" onclick="toggleCart()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+        <span class="cart-badge" id="navCartBadge">0</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Shop Hero -->
+  <section class="section-island hero-island reveal delay-1">
+    <div class="eyebrow"><span class="badge-number" style="display:inline-flex; width:24px; height:24px; font-size:0.75rem; margin:0 8px 0 0; color:var(--text-primary);">02</span> Merch</div>
+    <h1>Official <span class="text-gradient-red">Gear</span></h1>
+    <p style="max-width: 600px; margin: 0 auto;">Rep the movement. Premium apparel and equipment designed for the culture.</p>
+  </section>
+
+  <!-- Product List -->
+  <section class="container section">
+    <div class="shop-grid">
+      
+      <!-- Product 1 -->
+      <div class="card product-card reveal delay-1">
+        <div class="img-cinematic-wrapper" style="border-radius: 0; border: none; border-bottom: var(--border-subtle); align-items:center; display:flex;">
+          <img src="assets/images/shop-jersey-white.png" alt="Pre-Order Home Jersey (White)" loading="lazy" style="object-fit:contain;">
+        </div>
+        <div class="product-info">
+          <h3 style="font-size: 1.75rem;">Premium Home Jersey (White)</h3>
+          <div class="product-price">₦25,000</div>
+          <p style="margin-bottom: var(--space-md);">Get ready to elevate your game with our brand-new Home collection. High-performance features with bold typography design.</p>
+          <button onclick="openProductModal('jersey-white')" class="btn btn-primary btn-buy">View Details</button>
+        </div>
+      </div>
+
+      <!-- Product 2 -->
+      <div class="card product-card reveal delay-2">
+        <div class="img-cinematic-wrapper" style="border-radius: 0; border: none; border-bottom: var(--border-subtle);">
+          <img src="assets/images/shop-basketball-life.jpg" alt="Heat Check Official Game Ball" loading="lazy">
+        </div>
+        <div class="product-info">
+          <h3 style="font-size: 1.75rem;">Official Game Ball</h3>
+          <div class="product-price">₦35,000</div>
+          <p style="margin-bottom: var(--space-md);">High-grip composite leather basketball designed for indoor and outdoor play. Official size and weight.</p>
+          <button onclick="openProductModal('basketball')" class="btn btn-primary btn-buy">View Details</button>
+        </div>
+      </div>
+
+      <!-- Product 3 -->
+      <div class="card product-card reveal delay-3">
+        <div class="img-cinematic-wrapper" style="border-radius: 0; border: none; border-bottom: var(--border-subtle); align-items:center; display:flex;">
+          <img src="assets/images/shop-jersey-black.png" alt="Pre-Order Away Jersey (Black)" loading="lazy" style="object-fit:contain;">
+        </div>
+        <div class="product-info">
+          <h3 style="font-size: 1.75rem;">Premium Away Jersey (Black)</h3>
+          <div class="product-price">₦25,000</div>
+          <p style="margin-bottom: var(--space-md);">Get ready to elevate your game with our brand-new Away collection. High-performance features with sleek typography design.</p>
+          <button onclick="openProductModal('jersey-black')" class="btn btn-primary btn-buy">View Details</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="container">
+    <div class="footer-island reveal">
+      <div style="max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: var(--space-md);">
+        <div class="logo">HEAT<span>CHECK</span></div>
+        <div class="nav-links" style="justify-content: center;">
+          <a href="mailto:heatcheckonline@gmail.com">heatcheckonline@gmail.com</a>
+          <a href="#">@heatcheckforever</a>
+        </div>
+        <p style="font-size: 0.9rem;">+234 702 500 1510 &nbsp;&bull;&nbsp; +234 818 713 6953</p>
+        <div class="eyebrow" style="margin:0;">© 2026 Heat Check Basketball.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+
+  <!-- Product Modal -->
+  <div class="modal-overlay" id="productModal" style="display:none;">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeProductModal()">×</button>
+      <div class="modal-grid">
+        <div class="modal-img-col">
+          <img id="modalImg" src="" alt="Product Image">
+        </div>
+        <div class="modal-info-col">
+          <h2 id="modalTitle">Product Title</h2>
+          <div class="modal-vendor">By Heat Check</div>
+          <p id="modalDesc">Description goes here</p>
+          <div id="modalFeatures" class="feature-list"></div>
+          
+          <div class="modal-quantity">
+            <span style="font-size: 0.9rem; margin-bottom: 0.5rem; display: block; color: var(--text-secondary);">How Many</span>
+            <div class="qty-selector">
+              <button onclick="changeQty(-1)">-</button>
+              <input type="text" id="modalQty" value="1" readonly>
+              <button onclick="changeQty(1)">+</button>
+            </div>
+          </div>
+          
+          <div class="modal-price-section">
+            <span style="font-size: 0.9rem; color: var(--text-secondary); display:block; margin-bottom: 0.25rem;">Price</span>
+            <div id="modalPrice" class="modal-price">NGN 0</div>
+          </div>
+          
+          <div class="modal-actions">
+            <button class="btn btn-primary btn-add-bag" onclick="addToCart()">Add to bag</button>
+            <button class="btn btn-secondary contact-seller" onclick="closeProductModal()">
+              Continue Shopping
+            </button>
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg> 
+              Contact Seller
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cart Drawer -->
+  <div class="cart-overlay" id="cartOverlay" onclick="toggleCart(false)"></div>
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="cart-header">
+      <h2>Your Bag</h2>
+      <button class="close-cart" onclick="toggleCart(false)">×</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <!-- Items will be injected here -->
+    </div>
+    <div class="cart-footer">
+      <div class="cart-total-row">
+        <span>Total</span>
+        <span id="cartTotal">NGN 0</span>
+      </div>
+      <input type="email" id="checkoutEmail" placeholder="Enter your email for receipt" style="width: 100%; padding: 0.75rem; margin-bottom: 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); background: rgba(255,255,255,0.05); color: white;" required>
+      <button class="btn btn-primary btn-checkout" id="checkoutBtn" onclick="initiateCheckout()">Checkout</button>
+    </div>
+  </div>
+
+  <script>
+    const productData = {
+      'jersey-white': {
+        title: "Pre-Order (Home Jersey Kit)",
+        img: "assets/images/shop-jersey-white.png",
+        desc: "Get ready to elevate your game and show your passion for the court with our brand-new home collection. Designed for both players and fans, this pure white jersey combines high-performance features with stylish bold typography design.",
+        price: 25000,
+        priceStr: "NGN 25,000",
+        features: [
+          "Premium Quality Fabric: Crafted from breathable, moisture-wicking material for ultimate comfort during intense games or casual wear.",
+          "Modern Design: A sleek and bold typography spanning the chest that reflects the vibrant energy of the Heat Check youth community.",
+          "Official Heat Check Branding: Show off your support with our signature badge representing our mission to empower youth through basketball."
+        ],
+        love: [
+          "Performance Ready: Whether you're hitting the court or cheering from the stands, this jersey is built to keep you cool and comfortable.",
+          "Join the Movement: Every purchase directly supports Heat Check's initiatives to bring basketball opportunities to youth across Nigeria.",
+          "Exclusive Design: Be one of the first to wear our latest official jersey and represent the spirit of Heat Check."
+        ]
+      },
+      'basketball': {
+        title: "Official Game Ball",
+        img: "assets/images/shop-basketball-life.jpg",
+        desc: "Designed to help you shoot, pivot, and handle the ball like a pro. This official Game Ball is crafted with specialized grips allowing you to maintain peak performance on both indoor and outdoor surfaces.",
+        price: 35000,
+        priceStr: "NGN 35,000",
+        features: [
+          "Composite Leather Cover: Provides maximum grip and a premium feel right out of the box.",
+          "Deep Channel Design: Ensures superior ball control, shooting rotation, and fluid handling.",
+          "All-Surface Build: Engineered to perform relentlessly on hardwood and concrete."
+        ],
+        love: [
+          "Pro-Level Specs: Adheres to standard official sizing and weight guidelines.",
+          "Heat Check Identity: Stamped with the iconic Heat Check graphic and official sizing format.",
+          "Durability First: Rugged inner lining maintains air pressure after high-impact games and outdoor sessions."
+        ]
+      },
+      'jersey-black': {
+        title: "Pre-Order (Away Jersey Kit)",
+        img: "assets/images/shop-jersey-black.png",
+        desc: "Dominate the night and represent the culture with our brand-new Away collection. Designed for both players and fans, this deep black jersey combines high-performance sweat-wicking architecture with our signature aesthetics.",
+        price: 25000,
+        priceStr: "NGN 25,000",
+        features: [
+          "Premium Quality Fabric: Crafted from breathable, moisture-wicking material for ultimate comfort during intense games or casual wear.",
+          "Modern Design: A sleek and bold white typography on deep black that reflects the vibrant intensity of the Heat Check community.",
+          "Official Heat Check Branding: Show off your support with our signature badge and unmistakable 5-drip emblem."
+        ],
+        love: [
+          "Performance Ready: Built strictly to keep you cool, dry, and looking sharp whether you're playing 5v5 or running the streets.",
+          "Expand the Infrastructure: Every purchase directly funds Heat Check events, empowering raw talent and local athletes.",
+          "Exclusive Design: Limited first-run. Be among the first to wear our latest jersey framework."
+        ]
+      }
+    };
+
+    let currentProduct = null;
+    let currentQty = 1;
+
+    function openProductModal(id) {
+      currentProduct = productData[id];
+      currentQty = 1;
+      
+      document.getElementById('modalImg').src = currentProduct.img;
+      document.getElementById('modalTitle').innerText = currentProduct.title;
+      document.getElementById('modalDesc').innerText = currentProduct.desc;
+      document.getElementById('modalPrice').innerText = currentProduct.priceStr;
+      document.getElementById('modalQty').value = currentQty;
+      
+      let html = '';
+      if(currentProduct.features && currentProduct.features.length) {
+        html += '<h4>Key Features:</h4><ul>';
+        currentProduct.features.forEach(f => { html += `<li>${f}</li>`; });
+        html += '</ul>';
+      }
+      if(currentProduct.love && currentProduct.love.length) {
+        html += "<h4>Why You'll Love It:</h4><ul>";
+        currentProduct.love.forEach(l => { html += `<li>${l}</li>`; });
+        html += "</ul>";
+      }
+      document.getElementById('modalFeatures').innerHTML = html;
+      
+      const overlay = document.getElementById('productModal');
+      overlay.style.display = 'flex';
+      setTimeout(() => {
+        overlay.classList.add('active');
+      }, 10);
+      
+      document.body.style.overflow = 'hidden'; // prevent background scrolling
+    }
+
+    function closeProductModal() {
+      const overlay = document.getElementById('productModal');
+      overlay.classList.remove('active');
+      setTimeout(() => {
+        overlay.style.display = 'none';
+        document.body.style.overflow = '';
+      }, 300);
+    }
+    
+    // Close when clicking outside modal content
+    document.getElementById('productModal').addEventListener('click', function(e) {
+      if(e.target === this) {
+        closeProductModal();
+      }
+    });
+
+    function changeQty(delta) {
+      currentQty += delta;
+      if(currentQty < 1) currentQty = 1;
+      document.getElementById('modalQty').value = currentQty;
+    }
+
+    // --- CART & E-COMMERCE LOGIC ---
+    let cart = [];
+    const PAYSTACK_PUBLIC_KEY = 'pk_live_4a4d4a4fa18068b0dc72922c3e462b862cc8b2e4'; // Live key
+
+    function addToCart() {
+      if(!currentProduct) return;
+      
+      const existingItem = cart.find(item => item.id === currentProduct.id);
+      if (existingItem) {
+        existingItem.qty += currentQty;
+      } else {
+        cart.push({
+          id: currentProduct.id,
+          title: currentProduct.title,
+          price: currentProduct.price,
+          img: currentProduct.img,
+          qty: currentQty
+        });
+      }
+      
+      updateCartUI();
+      closeProductModal();
+      toggleCart(true); // Open cart drawer
+    }
+
+    function updateCartItemQty(id, delta) {
+      const item = cart.find(i => i.id === id);
+      if (item) {
+        item.qty += delta;
+        if (item.qty <= 0) {
+          cart = cart.filter(i => i.id !== id);
+        }
+        updateCartUI();
+      }
+    }
+
+    function removeCartItem(id) {
+      cart = cart.filter(i => i.id !== id);
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      const cartItemsContainer = document.getElementById('cartItems');
+      const cartTotalEl = document.getElementById('cartTotal');
+      const navBadge = document.getElementById('navCartBadge');
+      
+      let totalItems = 0;
+      let totalPrice = 0;
+      let html = '';
+
+      if (cart.length === 0) {
+        html = '<div class="cart-empty">Your bag is empty.</div>';
+      } else {
+        cart.forEach(item => {
+          totalItems += item.qty;
+          totalPrice += (item.price * item.qty);
+          html += `
+            <div class="cart-item">
+              <div class="cart-item-img"><img src="${item.img}" alt="${item.title}"></div>
+              <div class="cart-item-details">
+                <div class="cart-item-title">${item.title}</div>
+                <div class="cart-item-price">NGN ${item.price.toLocaleString()}</div>
+                <div class="cart-item-actions">
+                  <div style="display:flex; align-items:center; gap:0.5rem;">
+                    <button class="cart-qty-btn" onclick="updateCartItemQty('${item.id}', -1)">-</button>
+                    <span style="color:var(--text-primary); font-size:0.9rem;">${item.qty}</span>
+                    <button class="cart-qty-btn" onclick="updateCartItemQty('${item.id}', 1)">+</button>
+                  </div>
+                  <button class="cart-remove" onclick="removeCartItem('${item.id}')">Remove</button>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+      }
+
+      cartItemsContainer.innerHTML = html;
+      cartTotalEl.innerText = `NGN ${totalPrice.toLocaleString()}`;
+      navBadge.innerText = totalItems;
+      navBadge.style.display = totalItems > 0 ? 'flex' : 'none';
+      
+      const checkoutBtn = document.getElementById('checkoutBtn');
+      checkoutBtn.disabled = cart.length === 0;
+      checkoutBtn.style.opacity = cart.length === 0 ? '0.5' : '1';
+    }
+
+    function toggleCart(forceOpen = false) {
+      const overlay = document.getElementById('cartOverlay');
+      const drawer = document.getElementById('cartDrawer');
+      
+      if (forceOpen || !drawer.classList.contains('active')) {
+        overlay.classList.add('active');
+        drawer.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      } else {
+        overlay.classList.remove('active');
+        drawer.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
+
+    // Paystack Integration
+    function initiateCheckout() {
+      if (cart.length === 0) return;
+      
+      const emailInput = document.getElementById('checkoutEmail').value;
+      if (!emailInput || !emailInput.includes('@')) {
+        alert("Please enter a valid email address before checking out.");
+        return;
+      }
+      
+      const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+      
+      // Create a readable summary of items for the dashboard
+      const itemSummary = cart.map(item => `${item.qty}x ${item.title}`).join(', ');
+      
+      let handler = PaystackPop.setup({
+        key: PAYSTACK_PUBLIC_KEY, 
+        email: emailInput,
+        amount: totalAmount * 100, // Paystack expects amount in kobo
+        currency: 'NGN',
+        ref: 'HC_' + Math.floor((Math.random() * 1000000000) + 1),
+        metadata: {
+          custom_fields: [
+            {
+              display_name: "Order Items",
+              variable_name: "order_items",
+              value: itemSummary
+            }
+          ]
+        },
+        callback: function(response){
+          // Payment successful
+          alert('Payment complete! Your order is confirmed. Reference: ' + response.reference);
+          cart = [];
+          updateCartUI();
+          toggleCart(false);
+        },
+        onClose: function(){
+          console.log('Transaction cancelled');
+        }
+      });
+      handler.openIframe();
+    }
+    
+    // Initialize
+    updateCartUI();
+  </script>
+</body>
+</html>
