@@ -75,6 +75,23 @@ body {
 }
 
 /* =========================================================
+   PARALLAX OVERLAYS (Black Screen Effect)
+   ========================================================= */
+.parallax-section {
+  position: relative;
+}
+.parallax-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(9, 9, 11, 0.85); /* Heavy dark tint matching hero */
+  z-index: 1;
+}
+.parallax-section > .container {
+  position: relative;
+  z-index: 2;
+}
+
+/* =========================================================
    TYPOGRAPHY
    ========================================================= */
 
