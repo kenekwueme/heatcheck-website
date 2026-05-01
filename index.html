@@ -576,14 +576,52 @@
     
     <div class="grid-2">
       <div class="stat-block reveal delay-1">
-        <div class="stat-number text-gradient-blue">+29k</div>
+        <div class="stat-number text-gradient-blue">+<span class="stat-counter" data-target="29">0</span>k</div>
         <div class="eyebrow" style="margin:0; color:var(--text-primary);">Impressions Generated</div>
         <p style="margin-top: 1rem; max-width: 300px;">Rapid audience growth across highly targeted youth demographics.</p>
       </div>
       <div class="stat-block reveal delay-2">
-        <div class="stat-number text-gradient-red">+16k</div>
+        <div class="stat-number text-gradient-red">+<span class="stat-counter" data-target="16">0</span>k</div>
         <div class="eyebrow" style="margin:0; color:var(--text-primary);">Total Unique Reach</div>
         <p style="margin-top: 1rem; max-width: 300px;">Consistent, organic expansion across multiple digital touchpoints.</p>
+      </div>
+    </div>
+    
+    <style>
+      .ig-post-hover-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.6); opacity: 0; transition: opacity 0.3s ease; display: flex; align-items: center; justify-content: center; color: white; backdrop-filter: blur(2px); }
+      .ig-post:hover .ig-post-hover-overlay { opacity: 1; }
+    </style>
+    
+    <div style="margin-top: var(--space-xxl); border-top: var(--border-subtle); padding-top: var(--space-xl);">
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: var(--space-lg); flex-wrap:wrap; gap:1rem;">
+        <div>
+          <h3 style="font-size: 2rem; margin-bottom: 0.5rem;">Latest on Gram</h3>
+          <p style="color: var(--text-secondary);">@heatcheckforever</p>
+        </div>
+        <a href="https://instagram.com/heatcheckforever" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Follow Us</a>
+      </div>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-sm);">
+        <a href="https://instagram.com/heatcheckforever" target="_blank" rel="noopener noreferrer" class="ig-post reveal delay-1" style="aspect-ratio: 1/1; background-image: url('assets/images/play.jpg'); background-size: cover; background-position: center; border-radius: var(--radius-sm); display: block; position: relative; overflow: hidden;">
+          <div class="ig-post-hover-overlay">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+          </div>
+        </a>
+        <a href="https://instagram.com/heatcheckforever" target="_blank" rel="noopener noreferrer" class="ig-post reveal delay-2" style="aspect-ratio: 1/1; background-image: url('assets/images/team.jpg'); background-size: cover; background-position: center; border-radius: var(--radius-sm); display: block; position: relative; overflow: hidden;">
+          <div class="ig-post-hover-overlay">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+          </div>
+        </a>
+        <a href="https://instagram.com/heatcheckforever" target="_blank" rel="noopener noreferrer" class="ig-post reveal delay-3" style="aspect-ratio: 1/1; background-image: url('assets/images/dec2024-1.jpg'); background-size: cover; background-position: center; border-radius: var(--radius-sm); display: block; position: relative; overflow: hidden;">
+          <div class="ig-post-hover-overlay">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+          </div>
+        </a>
+        <a href="https://instagram.com/heatcheckforever" target="_blank" rel="noopener noreferrer" class="ig-post reveal delay-4" style="aspect-ratio: 1/1; background-image: url('assets/images/padel2025-1.jpg'); background-size: cover; background-position: center; border-radius: var(--radius-sm); display: block; position: relative; overflow: hidden;">
+          <div class="ig-post-hover-overlay">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+          </div>
+        </a>
       </div>
     </div>
   </section>
@@ -630,14 +668,14 @@
         
         <div class="hero-buttons" style="margin-bottom: var(--space-xxl);">
           <a href="mailto:heatcheckonline@gmail.com" class="btn btn-primary">Join Heat Check</a>
-          <a href="mailto:heatcheckonline@gmail.com" class="btn btn-secondary">Become a Sponsor</a>
+          <button onclick="togglePartnerForm(true)" class="btn btn-secondary">Become a Sponsor</button>
         </div>
 
         <div style="border-top: 1px solid rgba(0,0,0,0.1); padding-top: var(--space-lg); max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: var(--space-md);">
           <div class="logo">HEAT<span>CHECK</span></div>
           <div class="nav-links" style="justify-content: center;">
             <a href="mailto:heatcheckonline@gmail.com">heatcheckonline@gmail.com</a>
-            <a href="#">@heatcheckforever</a>
+            <a href="https://instagram.com/heatcheckforever" target="_blank" rel="noopener noreferrer">@heatcheckforever</a>
           </div>
           <p style="font-size: 0.9rem; color:var(--text-primary);">+234 702 500 1510 &nbsp;&bull;&nbsp; +234 818 713 6953</p>
           <div class="eyebrow" style="margin:0; color:var(--text-secondary);">© 2026 Heat Check Basketball.</div>
@@ -647,5 +685,215 @@
   </footer>
 
   <script src="js/main.js"></script>
+
+  <!-- Partner Form Slide-Over -->
+  <div class="partner-form-overlay" id="partnerOverlay" onclick="togglePartnerForm(false)"></div>
+  <div class="partner-drawer" id="partnerDrawer">
+    <div class="partner-header">
+      <h2>Partner With HeatCheck</h2>
+      <button class="close-partner" onclick="togglePartnerForm(false)">&times;</button>
+    </div>
+    <div class="partner-body">
+      <div id="partnerFormContent" class="form-content">
+        <p class="partner-intro">Support basketball culture, community development, tournaments, court builds, school activations, and branded sports experiences across Nigeria and beyond. Fill out the form below and our team will reach out with the right partnership opportunity for your brand.</p>
+        
+        <form id="partnerForm" onsubmit="submitPartnerForm(event)">
+          <div class="form-group">
+            <label class="form-label">1. Company / Brand Name</label>
+            <input type="text" class="form-input" required>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">2. Contact Person</label>
+            <input type="text" class="form-input" required>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">3. Job Title / Role</label>
+            <input type="text" class="form-input" required>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">4. Email Address</label>
+            <input type="email" class="form-input" required>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">5. Phone / WhatsApp Number</label>
+            <input type="tel" class="form-input" required>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">6. Company Website / Instagram</label>
+            <input type="text" class="form-input">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">7. What type of partnership are you interested in?</label>
+            <div class="checkbox-group">
+              <label class="checkbox-label"><input type="checkbox" class="checkbox-input"> Tournament sponsorship</label>
+              <label class="checkbox-label"><input type="checkbox" class="checkbox-input"> Community court build sponsorship</label>
+              <label class="checkbox-label"><input type="checkbox" class="checkbox-input"> School basketball activation</label>
+              <label class="checkbox-label"><input type="checkbox" class="checkbox-input"> Product / merch collaboration</label>
+              <label class="checkbox-label"><input type="checkbox" class="checkbox-input"> Brand activation at events</label>
+              <label class="checkbox-label"><input type="checkbox" class="checkbox-input"> Media / content partnership</label>
+              <label class="checkbox-label"><input type="checkbox" class="checkbox-input"> Title sponsorship</label>
+              <label class="checkbox-label"><input type="checkbox" class="checkbox-input"> In-kind sponsorship</label>
+              <label class="checkbox-label"><input type="checkbox" class="checkbox-input"> Other</label>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">8. Which HeatCheck platform are you most interested in supporting?</label>
+            <div class="checkbox-group">
+              <label class="checkbox-label"><input type="checkbox" class="checkbox-input"> Local tournaments</label>
+              <label class="checkbox-label"><input type="checkbox" class="checkbox-input"> National tournaments</label>
+              <label class="checkbox-label"><input type="checkbox" class="checkbox-input"> School activations</label>
+              <label class="checkbox-label"><input type="checkbox" class="checkbox-input"> Community court projects</label>
+              <label class="checkbox-label"><input type="checkbox" class="checkbox-input"> Youth development programs</label>
+              <label class="checkbox-label"><input type="checkbox" class="checkbox-input"> Merch / product drops</label>
+              <label class="checkbox-label"><input type="checkbox" class="checkbox-input"> Digital content and media</label>
+              <label class="checkbox-label"><input type="checkbox" class="checkbox-input"> Full-year partnership</label>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">9. Estimated sponsorship budget</label>
+            <select class="form-select" required>
+              <option value="" disabled selected>Select an option</option>
+              <option>Below ₦1,000,000</option>
+              <option>₦1,000,000 – ₦3,000,000</option>
+              <option>₦3,000,000 – ₦5,000,000</option>
+              <option>₦5,000,000 – ₦10,000,000</option>
+              <option>₦10,000,000+</option>
+              <option>Not sure yet / open to discussion</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">10. Main sponsorship goals</label>
+            <div class="checkbox-group">
+              <label class="checkbox-label"><input type="checkbox" class="checkbox-input"> Brand visibility</label>
+              <label class="checkbox-label"><input type="checkbox" class="checkbox-input"> Community impact</label>
+              <label class="checkbox-label"><input type="checkbox" class="checkbox-input"> Youth engagement</label>
+              <label class="checkbox-label"><input type="checkbox" class="checkbox-input"> Product sampling</label>
+              <label class="checkbox-label"><input type="checkbox" class="checkbox-input"> Content creation</label>
+              <label class="checkbox-label"><input type="checkbox" class="checkbox-input"> Sales / customer acquisition</label>
+              <label class="checkbox-label"><input type="checkbox" class="checkbox-input"> CSR impact</label>
+              <label class="checkbox-label"><input type="checkbox" class="checkbox-input"> Sports culture alignment</label>
+              <label class="checkbox-label"><input type="checkbox" class="checkbox-input"> Event activation</label>
+              <label class="checkbox-label"><input type="checkbox" class="checkbox-input"> Long-term brand partnership</label>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">11. Preferred location or market</label>
+            <div class="checkbox-group">
+              <label class="checkbox-label"><input type="checkbox" class="checkbox-input"> Lagos</label>
+              <label class="checkbox-label"><input type="checkbox" class="checkbox-input"> Abuja</label>
+              <label class="checkbox-label"><input type="checkbox" class="checkbox-input"> Ibadan</label>
+              <label class="checkbox-label"><input type="checkbox" class="checkbox-input"> Other Nigerian cities</label>
+              <label class="checkbox-label"><input type="checkbox" class="checkbox-input"> UK / London</label>
+              <label class="checkbox-label"><input type="checkbox" class="checkbox-input"> Pan-African</label>
+              <label class="checkbox-label"><input type="checkbox" class="checkbox-input"> Open to recommendation</label>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">12. Preferred timeline</label>
+            <select class="form-select" required>
+              <option value="" disabled selected>Select an option</option>
+              <option>As soon as possible</option>
+              <option>Within the next 1 month</option>
+              <option>Within 3 months</option>
+              <option>Within 6 months</option>
+              <option>For a specific event</option>
+              <option>Long-term / annual partnership</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">13. Would you like to sponsor a court build?</label>
+            <div class="radio-group">
+              <label class="radio-label"><input type="radio" name="courtBuild" class="radio-input" required> Yes</label>
+              <label class="radio-label"><input type="radio" name="courtBuild" class="radio-input"> No</label>
+              <label class="radio-label"><input type="radio" name="courtBuild" class="radio-input"> Maybe, tell me more</label>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">14. Would you like HeatCheck to create a custom sponsorship proposal for your brand?</label>
+            <div class="radio-group">
+              <label class="radio-label"><input type="radio" name="customProposal" class="radio-input" required> Yes</label>
+              <label class="radio-label"><input type="radio" name="customProposal" class="radio-input"> No</label>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">15. Additional information</label>
+            <textarea class="form-textarea" placeholder="Tell us more about your brand and what you hope to achieve..."></textarea>
+          </div>
+        </form>
+      </div>
+      
+      <div id="partnerFormSuccess" class="form-success">
+        <div class="form-success-icon">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </div>
+        <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color:var(--text-primary);">Submission Received</h3>
+        <p style="color:var(--text-secondary); line-height: 1.6; max-width: 400px; margin: 0 auto;">Thank you for your interest in partnering with HeatCheck. Our team has received your submission and will review your goals, preferred platform, and sponsorship interests. We'll reach out shortly with the best partnership opportunities for your brand.</p>
+        <button class="btn btn-secondary" style="margin-top: 2rem; width:100%;" onclick="togglePartnerForm(false)">Close Window</button>
+      </div>
+    </div>
+    <div class="partner-footer" id="partnerFooter">
+      <button type="submit" form="partnerForm" class="btn btn-primary btn-submit">Submit Partnership Interest</button>
+    </div>
+  </div>
+
+  <script>
+    function togglePartnerForm(forceOpen = false) {
+      const overlay = document.getElementById('partnerOverlay');
+      const drawer = document.getElementById('partnerDrawer');
+      const formContent = document.getElementById('partnerFormContent');
+      const formSuccess = document.getElementById('partnerFormSuccess');
+      const formFooter = document.getElementById('partnerFooter');
+      const form = document.getElementById('partnerForm');
+      
+      if (forceOpen) {
+        // Reset form state on open
+        form.reset();
+        formContent.classList.remove('hidden');
+        formSuccess.classList.remove('active');
+        formFooter.style.display = 'block';
+        
+        overlay.classList.add('active');
+        drawer.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      } else {
+        overlay.classList.remove('active');
+        drawer.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
+
+    function submitPartnerForm(e) {
+      e.preventDefault();
+      // In a real scenario, you would send FormData via fetch() to Formspree, etc.
+      
+      const formContent = document.getElementById('partnerFormContent');
+      const formSuccess = document.getElementById('partnerFormSuccess');
+      const formFooter = document.getElementById('partnerFooter');
+      
+      // Hide form, show success message
+      formContent.classList.add('hidden');
+      formFooter.style.display = 'none';
+      formSuccess.classList.add('active');
+      
+      // Scroll drawer to top to see success message clearly
+      document.querySelector('.partner-body').scrollTop = 0;
+    }
+  </script>
 </body>
 </html>
