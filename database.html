@@ -12,6 +12,7 @@
   
   <link rel="stylesheet" href="css/design-system.css?v=1.1">
   <link rel="stylesheet" href="css/database.css?v=1.1">
+  <link rel="stylesheet" href="css/wizard.css?v=1.1">
 </head>
 <body class="db-page">
 
@@ -145,8 +146,8 @@
       <h2 style="font-size: 2rem; margin-bottom: 1rem; font-family: var(--font-display);">Help Build the Database</h2>
       <p style="color: var(--db-text-muted); max-width: 600px; margin: 0 auto 2rem; line-height: 1.6;">Know a player, coach, team manager, or verified roster source? Submit an update and help improve the accuracy of Nigeria’s basketball data ecosystem.</p>
       <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-        <button class="btn btn-primary" style="background: var(--db-accent-blue); color: white;">Submit Player Update</button>
-        <button class="btn btn-secondary">Contact HeatCheck</button>
+        <button class="btn btn-primary" style="background: var(--db-accent-blue); color: white;" onclick="openWizard()">Submit Player Update</button>
+        <button class="btn btn-secondary" onclick="window.location.href='mailto:heatcheckonline@gmail.com?subject=HeatCheck Contact'">Contact HeatCheck</button>
       </div>
     </div>
 
@@ -237,7 +238,366 @@
     </div>
   </div>
 
+  <!-- Player Update Wizard Modal -->
+  <div class="wizard-overlay" id="wizardOverlay">
+    <div class="wizard-container">
+      
+      <div id="wizardMainUI">
+        <div class="wizard-header">
+          <button class="wizard-close" onclick="closeWizard()">&times;</button>
+          <h2 class="wizard-title">Claim / Update Your Player Profile</h2>
+          <p class="wizard-intro">Help us keep Nigeria’s basketball database accurate. Submit your verified player details below. Our team will review all updates before publishing them.</p>
+          <div class="wizard-note">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+            Personal contact details and verification documents will only be used for review and will not be displayed publicly.
+          </div>
+          
+          <div class="progress-container">
+            <div class="progress-bar-fill" id="progressFill"></div>
+            <div class="step-indicator active" id="ind-1">1</div>
+            <div class="step-indicator" id="ind-2">2</div>
+            <div class="step-indicator" id="ind-3">3</div>
+            <div class="step-indicator" id="ind-4">4</div>
+            <div class="step-indicator" id="ind-5">5</div>
+            <div class="step-indicator" id="ind-6">6</div>
+          </div>
+        </div>
+
+        <div class="wizard-body">
+          <form id="playerUpdateForm">
+            <!-- STEP 1 -->
+            <div class="wizard-step active" id="step-1">
+              <h3 class="step-title">Basic Info</h3>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label">Full Name <span class="req">*</span></label>
+                  <input type="text" class="form-input" id="wu_fullname" placeholder="Enter your full legal name" required>
+                  <div class="error-msg">Required</div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Known As / Nickname</label>
+                  <input type="text" class="form-input" id="wu_nickname" placeholder="Example: Big Mike, KD, Captain">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Date of Birth <span class="req">*</span></label>
+                  <input type="date" class="form-input" id="wu_dob" required>
+                  <div class="error-msg">Required</div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Nationality</label>
+                  <input type="text" class="form-input" id="wu_nationality" value="Nigeria">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">State of Origin</label>
+                  <input type="text" class="form-input" id="wu_state" placeholder="Optional">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">City / Current Location</label>
+                  <input type="text" class="form-input" id="wu_city" placeholder="Lagos, Abuja, Port Harcourt, etc.">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Email Address <span class="req">*</span></label>
+                  <input type="email" class="form-input" id="wu_email" placeholder="you@example.com" required>
+                  <div class="error-msg">Valid email required</div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Phone Number / WhatsApp <span class="req">*</span></label>
+                  <input type="tel" class="form-input" id="wu_phone" placeholder="+234..." required>
+                  <div class="error-msg">Required</div>
+                </div>
+                <div class="form-group full">
+                  <label class="form-label">Instagram Handle</label>
+                  <input type="text" class="form-input" id="wu_ig" placeholder="@yourhandle">
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP 2 -->
+            <div class="wizard-step" id="step-2">
+              <h3 class="step-title">Basketball Profile</h3>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label">Primary Position <span class="req">*</span></label>
+                  <select class="form-select" id="wu_pos_1" required>
+                    <option value="">Select...</option>
+                    <option value="Point Guard">Point Guard</option>
+                    <option value="Shooting Guard">Shooting Guard</option>
+                    <option value="Small Forward">Small Forward</option>
+                    <option value="Power Forward">Power Forward</option>
+                    <option value="Center">Center</option>
+                    <option value="Combo Guard">Combo Guard</option>
+                    <option value="Wing">Wing</option>
+                    <option value="Forward">Forward</option>
+                    <option value="Big">Big</option>
+                  </select>
+                  <div class="error-msg">Required</div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Secondary Position</label>
+                  <select class="form-select" id="wu_pos_2">
+                    <option value="">Select...</option>
+                    <option value="Point Guard">Point Guard</option>
+                    <option value="Shooting Guard">Shooting Guard</option>
+                    <option value="Small Forward">Small Forward</option>
+                    <option value="Power Forward">Power Forward</option>
+                    <option value="Center">Center</option>
+                    <option value="Combo Guard">Combo Guard</option>
+                    <option value="Wing">Wing</option>
+                    <option value="Forward">Forward</option>
+                    <option value="Big">Big</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Height <span class="req">*</span></label>
+                  <input type="text" class="form-input" id="wu_height" placeholder="Example: 6'5 / 196cm" required>
+                  <div class="error-msg">Required</div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Weight</label>
+                  <input type="text" class="form-input" id="wu_weight" placeholder="Example: 92kg">
+                </div>
+                <div class="form-group full">
+                  <label class="form-label">Dominant Hand</label>
+                  <select class="form-select" id="wu_hand">
+                    <option value="">Select...</option>
+                    <option value="Right">Right</option>
+                    <option value="Left">Left</option>
+                    <option value="Both">Both</option>
+                  </select>
+                </div>
+                <div class="form-group full">
+                  <label class="form-label">Playing Style / Role (Select up to 3)</label>
+                  <div class="chip-group" id="chipGroupRole">
+                    <div class="chip" data-val="Scorer">Scorer</div>
+                    <div class="chip" data-val="Shooter">Shooter</div>
+                    <div class="chip" data-val="Playmaker">Playmaker</div>
+                    <div class="chip" data-val="Defender">Defender</div>
+                    <div class="chip" data-val="Rebounder">Rebounder</div>
+                    <div class="chip" data-val="Rim Protector">Rim Protector</div>
+                    <div class="chip" data-val="Slasher">Slasher</div>
+                    <div class="chip" data-val="Stretch Big">Stretch Big</div>
+                    <div class="chip" data-val="Athletic Finisher">Athletic Finisher</div>
+                    <div class="chip" data-val="Floor General">Floor General</div>
+                    <div class="chip" data-val="3&D">3&D</div>
+                    <div class="chip" data-val="Two-Way Player">Two-Way Player</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP 3 -->
+            <div class="wizard-step" id="step-3">
+              <h3 class="step-title">Team & Career</h3>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label">Current Team / Club <span class="req">*</span></label>
+                  <input type="text" class="form-input" id="wu_team" placeholder="Example: Rivers Hoopers" required>
+                  <div class="error-msg">Required</div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Current League / Competition <span class="req">*</span></label>
+                  <select class="form-select" id="wu_league" required>
+                    <option value="">Select...</option>
+                    <option value="BPL">Nigerian Basketball Premier League / BPL</option>
+                    <option value="Division 1">Division 1</option>
+                    <option value="Division 2">Division 2</option>
+                    <option value="BAL">BAL</option>
+                    <option value="Road to BAL">Road to BAL</option>
+                    <option value="University">University Basketball</option>
+                    <option value="Academy">Private Academy</option>
+                    <option value="Overseas">Overseas League</option>
+                    <option value="Free Agent">Free Agent</option>
+                    <option value="Other">Other</option>
+                  </select>
+                  <div class="error-msg">Required</div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Conference</label>
+                  <select class="form-select" id="wu_conference">
+                    <option value="">Select...</option>
+                    <option value="Atlantic">Atlantic Conference</option>
+                    <option value="Savannah">Savannah Conference</option>
+                    <option value="Not Sure">Not Sure</option>
+                    <option value="N/A">Not Applicable</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Current Status <span class="req">*</span></label>
+                  <select class="form-select" id="wu_status" required>
+                    <option value="">Select...</option>
+                    <option value="Active">Active</option>
+                    <option value="Injured">Injured</option>
+                    <option value="Free Agent">Free Agent</option>
+                    <option value="Retired">Retired</option>
+                    <option value="Unsure">Unsure</option>
+                  </select>
+                  <div class="error-msg">Required</div>
+                </div>
+                <div class="form-group full">
+                  <label class="form-label">Jersey Number</label>
+                  <input type="text" class="form-input" id="wu_jersey" placeholder="Optional">
+                </div>
+                <div class="form-group full">
+                  <label class="form-label">Previous Teams Played For</label>
+                  <textarea class="form-textarea" id="wu_prev_teams" placeholder="List previous teams, seasons, and leagues if possible. Example: Lagos Legends — 2025 NPBL, Kwara Falcons — 2024 NPBL"></textarea>
+                </div>
+                
+                <div class="form-group full">
+                  <label class="form-label">National Team Experience</label>
+                  <div class="chip-group" id="chipGroupNational">
+                    <div class="chip" data-val="Senior">D’Tigers Senior Team</div>
+                    <div class="chip" data-val="Camp">D’Tigers Training Camp</div>
+                    <div class="chip" data-val="U18">Nigeria U18</div>
+                    <div class="chip" data-val="U16">Nigeria U16</div>
+                    <div class="chip" data-val="University">University National Team</div>
+                    <div class="chip" data-val="3x3">3x3 National Team</div>
+                    <div class="chip" data-val="None">No National Team Experience</div>
+                  </div>
+                </div>
+                <div class="form-group full">
+                  <label class="form-label">BAL / Continental Experience</label>
+                  <div class="chip-group" id="chipGroupBal">
+                    <div class="chip" data-val="BAL">BAL</div>
+                    <div class="chip" data-val="RoadToBAL">Road to BAL</div>
+                    <div class="chip" data-val="FIBA_Africa">FIBA Africa Club Competition</div>
+                    <div class="chip" data-val="None">None</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP 4 -->
+            <div class="wizard-step" id="step-4">
+              <h3 class="step-title">Stats & Achievements</h3>
+              <div class="form-grid">
+                <div class="form-group full">
+                  <label class="form-label">Latest Season Stats Overview</label>
+                  <textarea class="form-textarea" id="wu_stats_overview" placeholder="Example: 12.4 PPG, 5.1 RPG, 3.2 APG, 1.5 SPG, 45% FG" style="min-height:60px;"></textarea>
+                </div>
+                <div class="form-group"><label class="form-label">Games Played</label><input type="number" class="form-input" id="wu_gp"></div>
+                <div class="form-group"><label class="form-label">Points Per Game</label><input type="number" step="0.1" class="form-input" id="wu_ppg"></div>
+                <div class="form-group"><label class="form-label">Rebounds Per Game</label><input type="number" step="0.1" class="form-input" id="wu_rpg"></div>
+                <div class="form-group"><label class="form-label">Assists Per Game</label><input type="number" step="0.1" class="form-input" id="wu_apg"></div>
+                <div class="form-group"><label class="form-label">Steals / Blocks Per Game</label><input type="text" class="form-input" id="wu_def" placeholder="Example: 1.2 SPG / 0.5 BPG"></div>
+                <div class="form-group"><label class="form-label">FG / 3PT / FT %</label><input type="text" class="form-input" id="wu_pct" placeholder="Example: 45 / 33 / 80"></div>
+                
+                <div class="form-group full">
+                  <label class="form-label">Career Highlights / Achievements</label>
+                  <textarea class="form-textarea" id="wu_highlights" placeholder="Example: 2025 BPL Champion, Final Four MVP, BAL participant, All-Star selection"></textarea>
+                </div>
+                <div class="form-group full">
+                  <label class="form-label">Links to Stats / Proof</label>
+                  <textarea class="form-textarea" id="wu_proof_links" placeholder="Afrobasket, FIBA, BAL, club post, article, Instagram post, YouTube link (One per line)"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP 5 -->
+            <div class="wizard-step" id="step-5">
+              <h3 class="step-title">Media & Proof</h3>
+              <div class="form-grid">
+                
+                <div class="form-group">
+                  <label class="form-label">Profile Photo (JPG/PNG)</label>
+                  <label class="file-upload">
+                    <input type="file" accept="image/*" id="wu_file_profile">
+                    <div class="file-icon">📷</div>
+                    <div class="file-text">Click to upload</div>
+                    <div class="file-name" id="fname_profile"></div>
+                  </label>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Verification Doc (ID/License)</label>
+                  <label class="file-upload">
+                    <input type="file" accept="image/*,.pdf" id="wu_file_id">
+                    <div class="file-icon">📄</div>
+                    <div class="file-text">Click to upload</div>
+                    <div class="file-name" id="fname_id"></div>
+                  </label>
+                  <span class="form-helper">Never published. For verification only.</span>
+                </div>
+                
+                <div class="form-group full">
+                  <label class="form-label">Highlight Video Link</label>
+                  <input type="url" class="form-input" id="wu_video" placeholder="YouTube, Instagram, Hudl, Google Drive, etc.">
+                </div>
+
+                <div class="form-group full">
+                  <label class="form-label">What part of your profile needs correction?</label>
+                  <div class="chip-group" id="chipGroupCorrection">
+                    <div class="chip" data-val="Name">Name</div>
+                    <div class="chip" data-val="Age">Age / DOB</div>
+                    <div class="chip" data-val="Height">Height</div>
+                    <div class="chip" data-val="Position">Position</div>
+                    <div class="chip" data-val="Team">Team</div>
+                    <div class="chip" data-val="Stats">Stats</div>
+                    <div class="chip" data-val="Photo">Photo</div>
+                    <div class="chip" data-val="History">Career history</div>
+                    <div class="chip" data-val="Other">Other</div>
+                  </div>
+                </div>
+
+                <div class="form-group full">
+                  <label class="form-label">Describe the update <span class="req">*</span></label>
+                  <textarea class="form-textarea" id="wu_desc" placeholder="Tell us exactly what should be changed or added in the database." required></textarea>
+                  <div class="error-msg">Required</div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Name of Coach / Official for Verification</label>
+                  <input type="text" class="form-input" id="wu_coach_name">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Coach / Official Contact</label>
+                  <input type="text" class="form-input" id="wu_coach_contact" placeholder="Phone or Email">
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP 6 -->
+            <div class="wizard-step" id="step-6">
+              <h3 class="step-title">Review & Submit</h3>
+              <p class="wizard-intro" style="color:var(--db-accent-orange);">Please confirm your information is accurate before submitting. False or unverifiable information may be rejected.</p>
+              
+              <div class="review-block" id="reviewBlock">
+                <!-- Generated by JS -->
+              </div>
+
+              <div class="checkbox-group">
+                <input type="checkbox" id="wu_chk_accuracy" required>
+                <label for="wu_chk_accuracy" class="checkbox-label">I confirm that the information submitted is accurate to the best of my knowledge and I give HeatCheck permission to review, verify, and publish relevant basketball profile information on the Nigerian Basketball Player Database.</label>
+              </div>
+              <div class="checkbox-group">
+                <input type="checkbox" id="wu_chk_privacy" required>
+                <label for="wu_chk_privacy" class="checkbox-label">I understand that personal contact details and verification documents will not be publicly displayed.</label>
+              </div>
+              <div class="error-msg" id="submitErrorMsg" style="font-size:1rem; margin-bottom:1rem;">Please agree to the terms to submit.</div>
+            </div>
+
+          </form>
+        </div>
+
+        <div class="wizard-footer">
+          <button class="btn-wizard btn-back" id="btnWizBack" disabled>Back</button>
+          <button class="btn-wizard btn-next" id="btnWizNext">Next Step</button>
+          <button class="btn-wizard btn-submit" id="btnWizSubmit">Submit Profile Update</button>
+        </div>
+      </div>
+
+      <!-- Success UI -->
+      <div class="success-state" id="wizardSuccessUI">
+        <div class="success-icon">✓</div>
+        <h2 class="success-title">Update Submitted</h2>
+        <p class="success-msg">Thank you! Your profile update has been securely received. The HeatCheck team will review your information and verify the details before publishing it to the database.</p>
+        <button class="btn-wizard btn-next" onclick="closeWizard()" style="margin-bottom: 1rem;">Back to Player Database</button>
+        <button class="btn-wizard btn-back" onclick="resetWizard()">Submit Another Update</button>
+      </div>
+
+    </div>
+  </div>
+
   <script src="js/data.js?v=1.1"></script>
   <script src="js/database.js?v=1.1"></script>
+  <script src="js/update-form.js?v=1.1"></script>
 </body>
 </html>
