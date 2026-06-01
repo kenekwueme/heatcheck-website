@@ -91,16 +91,19 @@
       opacity: 1;
     }
     .modal-content {
-      background: #FFFFFF;
+      background: var(--bg-surface);
       border-radius: var(--radius-lg);
       width: 100%;
       max-width: 1100px;
       max-height: 90vh;
-      overflow-y: auto;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
       position: relative;
       transform: translateY(20px);
       transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 40px 100px rgba(0,0,0,0.15);
+      box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+      border: var(--border-subtle);
     }
     .modal-overlay.active .modal-content {
       transform: translateY(0);
@@ -124,22 +127,54 @@
     .modal-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
+      flex-grow: 1;
+      height: 100%;
+      overflow: hidden;
     }
     .modal-img-col {
-      background: #F9FAFB;
-      padding: var(--space-xl);
+      background: #09090b;
+      padding: var(--space-md);
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
+      position: relative;
     }
-    .modal-img-col img {
-      max-width: 100%;
-      height: auto;
-      mix-blend-mode: multiply;
+    .modal-img-col img#modalImg {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .modal-gallery {
+      position: absolute;
+      bottom: var(--space-md);
+      display: flex;
+      gap: var(--space-sm);
+      z-index: 10;
+    }
+    .modal-gallery img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.2s ease;
+      background: #fff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .modal-gallery img:hover {
+      transform: scale(1.05);
+    }
+    .modal-gallery img.active {
+      border-color: var(--accent-red);
+      transform: scale(1.05);
     }
     .modal-info-col {
       padding: var(--space-xxl) var(--space-xl);
       text-align: left;
+      overflow-y: auto;
+      height: 100%;
     }
     .modal-info-col h2 { font-size: 2rem; margin-bottom: 0.25rem; font-family: var(--font-display); }
     .modal-vendor { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: var(--space-lg); }
@@ -388,6 +423,7 @@
       <div class="modal-grid">
         <div class="modal-img-col">
           <img id="modalImg" src="" alt="Product Image">
+          <div class="modal-gallery" id="modalGallery"></div>
         </div>
         <div class="modal-info-col">
           <h2 id="modalTitle">Product Title</h2>
@@ -468,6 +504,12 @@
       'basketball': {
         title: "Official Game Ball",
         img: "assets/images/shop-basketball-life.jpg",
+        gallery: [
+          "assets/images/shop-basketball-life.jpg",
+          "assets/images/IMG_1538.jpg",
+          "assets/images/IMG_1539.jpg",
+          "assets/images/IMG_1540.jpg"
+        ],
         desc: "Designed to help you shoot, pivot, and handle the ball like a pro. This official Game Ball is crafted with specialized grips allowing you to maintain peak performance on both indoor and outdoor surfaces.",
         price: 35000,
         priceStr: "NGN 35,000",
@@ -527,6 +569,19 @@
       }
       document.getElementById('modalFeatures').innerHTML = html;
       
+      const galleryEl = document.getElementById('modalGallery');
+      if (currentProduct.gallery && currentProduct.gallery.length > 1) {
+        galleryEl.style.display = 'flex';
+        let galleryHtml = '';
+        currentProduct.gallery.forEach((gImg, idx) => {
+          galleryHtml += `<img src="${gImg}" class="${idx === 0 ? 'active' : ''}" onclick="setModalMainImage('${gImg}', this)">`;
+        });
+        galleryEl.innerHTML = galleryHtml;
+      } else {
+        galleryEl.style.display = 'none';
+        galleryEl.innerHTML = '';
+      }
+      
       const overlay = document.getElementById('productModal');
       overlay.style.display = 'flex';
       setTimeout(() => {
@@ -551,6 +606,13 @@
         closeProductModal();
       }
     });
+
+    function setModalMainImage(src, el) {
+      document.getElementById('modalImg').src = src;
+      const galleryImgs = document.getElementById('modalGallery').querySelectorAll('img');
+      galleryImgs.forEach(img => img.classList.remove('active'));
+      el.classList.add('active');
+    }
 
     function changeQty(delta) {
       currentQty += delta;
