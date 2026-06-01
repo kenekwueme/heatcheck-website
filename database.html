@@ -8,8 +8,13 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  
+
+  <!-- PWA Setup -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#09090b">
+  <link rel="apple-touch-icon" href="assets/images/logo-badge.png">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">  
   <link rel="stylesheet" href="css/design-system.css?v=1.1">
   <link rel="stylesheet" href="css/database.css?v=1.1">
   <link rel="stylesheet" href="css/wizard.css?v=1.1">
@@ -599,5 +604,13 @@
   <script src="js/data.js?v=1.1"></script>
   <script src="js/database.js?v=1.1"></script>
   <script src="js/update-form.js?v=1.1"></script>
+  <script>
+    // Register Service Worker for PWA
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js');
+      });
+    }
+  </script>
 </body>
 </html>

@@ -10,6 +10,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
+  <!-- PWA Setup -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#09090b">
+  <link rel="apple-touch-icon" href="assets/images/logo-badge.png">
+
   <link rel="stylesheet" href="css/design-system.css?v=1.1">
   <link rel="stylesheet" href="css/animations.css?v=1.1">
   <script src="https://js.paystack.co/v1/inline.js"></script>
@@ -767,6 +772,13 @@
     
     // Initialize
     updateCartUI();
+    
+    // Register Service Worker for PWA
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js');
+      });
+    }
   </script>
 </body>
 </html>

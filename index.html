@@ -10,6 +10,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
+  <!-- PWA Setup -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#09090b">
+  <link rel="apple-touch-icon" href="assets/images/logo-badge.png">
+
   <link rel="stylesheet" href="css/design-system.css?v=1.1">
   <link rel="stylesheet" href="css/animations.css?v=1.1">
   <link rel="stylesheet" href="css/hero-interactive.css?v=1.1">
@@ -861,6 +866,13 @@
       
       // Scroll drawer to top to see success message clearly
       document.querySelector('.partner-body').scrollTop = 0;
+    }
+
+    // Register Service Worker for PWA
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js');
+      });
     }
   </script>
 </body>
